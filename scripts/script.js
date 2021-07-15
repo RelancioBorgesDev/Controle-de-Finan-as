@@ -1,8 +1,13 @@
 const transacaoUL = document.querySelector('#transactions');
 const inputNome = document.querySelector('#text');
 const inputAmount = document.querySelector('#amount');
+const form = document.querySelector('#form');
+const balance = document.querySelector('#balance');
+const moneyPlus = document.querySelector('#money-plus');
+const moneyMinus = document.querySelector('#money-minus');
+const deleteBTN = document.querySelector('.delete-btn');
 
-console.log(inputAmount);
+
 
 //Array de Transações
 const transacoesSetup = [
@@ -27,9 +32,9 @@ const transacoesPercorridas = transacoesSetup.forEach(transacoes =>{
 
 /* Array com os valores dos produtos do Setup */
 const valorSetup = transacoesSetup.map(transacoes => transacoes.amount);
-
 /* Filtrar valores positivos e negativos do Setup */
 const valorSetupPositivos = valorSetup.filter(valorSetup => valorSetup > 0);
+console.log(valorSetupPositivos) 
 const valorSetupNegativos = valorSetup.filter(valorSetup => valorSetup < 0);
 
 /* Valores das transações total, total positivo e total negativo */
@@ -37,10 +42,45 @@ const valorTotalTransacoesSetup = valorSetup.reduce((acc, transacoes) => acc + t
 const valorTransacoesPositivoTotal = valorSetupPositivos.reduce((acc,transacoes) => acc + transacoes, 0).toFixed(2)
 const valorTransacoesNegativoTotal = valorSetupNegativos.reduce((acc,transacoes) => acc + transacoes, 0).toFixed(2)
 
+/* Inserir os valores no HTML */
+balance.innerHTML = `R$ ${valorTotalTransacoesSetup}`;
+moneyPlus.innerHTML = `R$ ${valorTransacoesPositivoTotal}`;
+moneyMinus.innerHTML = `R$ ${valorTransacoesNegativoTotal}`;
 
+/* Form  */
+const formEnviar = form.addEventListener('submit', (e) =>{
+    e.preventDefault();
+    const valorNome = inputNome.value;
+    const valorAmount = inputAmount.value;
 
+    if(valorNome && valorAmount != "" || 0){
+        const classeCSS = valorAmount < 0 ? 'minus' : 'plus';
+        const li = document.createElement('li');
+        const amountSemSinal = Math.abs(valorAmount)
+        li.classList.add(classeCSS);
+        const sinalTransacao = valorAmount < 0 ? '-' : '+';
+        li.innerHTML = `${valorNome} <span> ${sinalTransacao} R$ ${amountSemSinal} </span/><button class="delete-btn">x</button>`;
+        localStorage.setItem('Valor', transacaoUL.append(li));
 
+        const valorTotalTransacoesSetupFormatado = parseFloat(valorTotalTransacoesSetup);
+        const valorTransacoesPositivoTotalFormatado = parseFloat(valorTransacoesPositivoTotal);
+        const valorTransacoesNegativoTotalFormatado = parseFloat(valorTransacoesNegativoTotal);
+        const valorAmountFormatado = Number(valorAmount);
 
+        const novoTotal = (valorTotalTransacoesSetupFormatado + valorAmountFormatado).toFixed(2);
+        const novoTotalPositivo = (valorTransacoesPositivoTotalFormatado + valorAmountFormatado).toFixed(2);
+        const novoTotalNegativo = (valorTransacoesNegativoTotalFormatado + valorAmountFormatado).toFixed(2);
+        console.log(novoTotal)
+
+        balance.innerHTML = `R$ ${novoTotal}`;
+        moneyPlus.innerHTML = `R$ ${novoTotalPositivo}`;
+        moneyMinus.innerHTML = `R$ ${novoTotalNegativo}`;
+
+ }
+   
+   
+    
+})
 
 
 
