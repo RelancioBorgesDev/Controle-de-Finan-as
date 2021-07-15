@@ -83,28 +83,3 @@ const formEnviar = form.addEventListener('submit', (e) =>{
 })
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-//Função que adiciona as Transações
-/* const adicionarTransacoes = transacao => {
-    const sinalTransacao = transacao.amount < 0 ? '-' : '+';
-    const amountSemSinal = Math.abs(transacao.amount)
-    const classeCSS = transacao.amount < 0 ? 'minus' : 'plus';
-
-    const li = document.createElement('li');
-    li.classList.add(classeCSS);
-    li.innerHTML = `${transacao.nome} <span>${sinalTransacao} R$ ${amountSemSinal}</span/><button class="delete-btn">x</button>`
-    transacaoUL.append(li)
-}
-
-adicionarTransacoes() */
